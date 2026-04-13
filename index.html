@@ -4,21 +4,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdias Nguemo - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #0f0f0f;
-            color: white;
-            text-align: center;
-            padding: 50px;
+            background: #080808;
+            color: #f0f0f0;
+            font-family: 'Syne', sans-serif;
         }
-        h1 { color: #e8ff47; }
-        p { color: #aaaaaa; }
+
+        /* NAV */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 48px;
+            border-bottom: 1px solid #1e1e1e;
+        }
+        .logo {
+            font-family: 'IBM Plex Mono', monospace;
+            color: #e8ff47;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+        }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #555;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #f0f0f0; }
+
+        /* HERO */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(232,255,71,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(232,255,71,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .hero-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #e8ff47;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 110px);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+        }
+        .hero h1 span {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(240,240,240,0.2);
+        }
+        .hero-desc {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            color: #555;
+            max-width: 400px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 16px 36px;
+            background: #e8ff47;
+            color: #080808;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(232,255,71,0.3);
+        }
+
+        /* SKILLS */
+        .skills {
+            padding: 100px 48px;
+            border-top: 1px solid #1e1e1e;
+        }
+        .section-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: #e8ff47;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        .skill-card {
+            border: 1px solid #1e1e1e;
+            padding: 24px;
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            color: #888;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .skill-card:hover {
+            border-color: #e8ff47;
+            color: #e8ff47;
+        }
+
+        /* PROJECTS */
+        .projects {
+            padding: 100px 48px;
+            border-top: 1px solid #1e1e1e;
+            background: #0f0f0f;
+        }
+        .project-card {
+            border: 1px solid #1e1e1e;
+            padding: 40px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+        .project-card:hover { border-color: #e8ff47; }
+        .project-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .project-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .project-tech {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: #555;
+        }
+        .project-arrow {
+            font-size: 24px;
+            color: #e8ff47;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .project-card:hover .project-arrow { opacity: 1; }
+
+        /* CONTACT */
+        .contact {
+            padding: 120px 48px;
+            border-top: 1px solid #1e1e1e;
+            text-align: center;
+        }
+        .contact h2 {
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 48px;
+            line-height: 1;
+        }
+        .contact h2 span { color: #e8ff47; }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            padding: 14px 28px;
+            border: 1px solid #1e1e1e;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #555;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .contact-link:hover {
+            border-color: #e8ff47;
+            color: #e8ff47;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 24px 48px;
+            border-top: 1px solid #1e1e1e;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
-    <h1>Bonjour, je suis Abdias Nguemo</h1>
-    <p>Développeur en formation</p>
-    <p>Bienvenue sur mon portfolio !</p>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">AN.DEV</div>
+    <ul class="nav-links">
+        <li><a href="#skills">Compétences</a></li>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <p class="hero-tag">// Développeur en formation</p>
+    <h1>Abdias<br><span>Nguemo</span></h1>
+    <p class="hero-desc">Je construis des applications web modernes et performantes. Passionné par le code et les nouvelles technologies.</p>
+    <a href="#contact" class="btn">Me contacter →</a>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+    <p class="section-label">// Compétences</p>
+    <div class="skills-grid">
+        <div class="skill-card">HTML / CSS</div>
+        <div class="skill-card">JavaScript</div>
+        <div class="skill-card">Git / GitHub</div>
+        <div class="skill-card">VS Code</div>
+        <div class="skill-card">React (en cours)</div>
+        <div class="skill-card">Node.js (en cours)</div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+    <p class="section-label">// Projets</p>
+    <div class="project-card">
+        <div>
+            <div class="project-num">01</div>
+            <div class="project-title">Mon Premier Portfolio</div>
+            <div class="project-tech">HTML · CSS · Git</div>
+        </div>
+        <div class="project-arrow">↗</div>
+    </div>
+    <div class="project-card">
+        <div>
+            <div class="project-num">02</div>
+            <div class="project-title">Projet à venir...</div>
+            <div class="project-tech">En construction 🚧</div>
+        </div>
+        <div class="project-arrow">↗</div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <h2>Travaillons<br><span>ensemble.</span></h2>
+    <div class="contact-links">
+        <a href="mailto:abdiasnguemo@gmail.com" class="contact-link">✉ abdiasnguemo@gmail.com</a>
+        <a href="https://github.com/abdiasnguemo-debug" class="contact-link">⌥ GitHub</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span>© 2026 Abdias Nguemo</span>
+    <span>Fait avec ♥ & HTML</span>
+</footer>
+
 </body>
 </html>
